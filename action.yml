@@ -47,19 +47,21 @@ inputs:
     description: "Set the version on the chart to this version"
     required: false
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.token }}
-    - ${{ inputs.charts_dir }}
-    - ${{ inputs.charts_url }}
-    - ${{ inputs.owner }}
-    - ${{ inputs.repository }}
-    - ${{ inputs.branch }}
-    - ${{ inputs.target_dir }}
-    - ${{ inputs.helm_version }}
-    - ${{ inputs.linting }}
-    - ${{ inputs.commit_username }}
-    - ${{ inputs.commit_email }}
-    - ${{ inputs.app_version }}
-    - ${{ inputs.chart_version }}
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        $GITHUB_ACTION_PATH/src/charts.sh \
+        "${{ inputs.token }}" \
+        "${{ inputs.charts_dir }}" \
+        "${{ inputs.charts_url }}" \
+        "${{ inputs.owner }}" \
+        "${{ inputs.repository }}" \
+        "${{ inputs.branch }}" \
+        "${{ inputs.target_dir }}" \
+        "${{ inputs.helm_version }}" \
+        "${{ inputs.linting }}" \
+        "${{ inputs.commit_username }}" \
+        "${{ inputs.commit_email }}" \
+        "${{ inputs.app_version }}" \
+        "${{ inputs.chart_version }}"
